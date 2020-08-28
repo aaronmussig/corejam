@@ -15,17 +15,17 @@
 #                                                                             #
 ###############################################################################
 
-from corejam import __title__
+from corejam import __title__, __version__, __url__
 from corejam.argparse import CustomArgParser, jam_parser
 
 
 def main_parser():
-    parser = CustomArgParser(prog=__title__)
+    parser = CustomArgParser(prog=__title__, ver=__version__, url=__url__)
     return parser
 
 
 def main():
-    with jam_parser(main_parser()) as _:
+    with jam_parser(main_parser(), __title__, __version__) as _:
         pass
 
 

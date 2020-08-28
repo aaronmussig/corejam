@@ -22,7 +22,6 @@ import traceback
 from contextlib import contextmanager
 from gettext import gettext
 
-from corejam import __version__, __title__, __url__
 from corejam.exceptions import JAMException
 from corejam.logging import colour
 from corejam.logging import logger_setup
@@ -30,6 +29,11 @@ from corejam.logging import logger_setup
 
 class CustomArgParser(argparse.ArgumentParser):
     """A custom argument parser for the `argparse` module."""
+
+    def __init__(self, *args, **kwargs):
+        self._version = kwargs.pop('ver') if 'ver' in kwargs else None
+        self._url = kwargs.pop('url') if 'url' in kwargs else None
+        super(CustomArgParser, self).__init__(*args, **kwargs)
 
     def print_usage(self, file=None):
         """Prints the top-level commands.
@@ -41,8 +45,8 @@ class CustomArgParser(argparse.ArgumentParser):
         """
         if file is None:
             file = sys.stdout
-        lines = ['  ' + colour(f'{__title__} v{__version__}', fg='blue'),
-                 f'  {__url__}',
+        lines = ['  ' + colour(f'{self.prog} v{self._version}', fg='blue'),
+                 f'  {self._url}',
                  '']
         file.write('\n'.join(lines))
 
@@ -84,30 +88,33 @@ class CustomArgParser(argparse.ArgumentParser):
         args = {'prog': self.prog, 'message': message}
         self.exit(2, gettext('[%(prog)s] Error: %(message)s\n') % args)
 
-    @staticmethod
-    def print_version():
+    def print_version(self):
         """Display the current version of the program.
 
         Examples
         --------
-        >>> CustomArgParser.print_version()
+        >>> x.print_version()
         title v1.2.3
         """
-        sys.stdout.write(f"{colour(f'{__title__} v{__version__}', fg='blue')}\n")
+        sys.stdout.write(f"{colour(f'{self.prog} v{self._version}', fg='blue')}\n")
 
 
 @contextmanager
-def jam_parser(parser):
+def jam_parser(parser, title, version):
     """A context manager to safely handle user arguments and error reporting.
 
     Arguments
     ---------
     parser : argparse.CustomArgParser
         The arguments to parse.
+    title : str
+        The program title.
+    version : str
+        The program version.
 
     Examples
     --------
-    >>> with jam_parser(parser) as args:
+    >>> with jam_parser(parser, 'foo', '1.2.3') as args:
             pass
 
     """
@@ -121,7 +128,7 @@ def jam_parser(parser):
         else:
             args = parser.parse_args()
             logger_setup(args.out_dir if hasattr(args, 'out_dir') else None,
-                         f'{__title__}.log', __title__, __version__, False,
+                         f'{title}.log', title, version, False,
                          hasattr(args, 'debug') and args.debug)
             yield parser.parse_args()
 
