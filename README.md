@@ -1,12 +1,5 @@
-# python-template
+# corejam
 
-[![PyPI](https://img.shields.io/pypi/v/TEMPLATE.svg)](https://pypi.python.org/pypi/TEMPLATE)
-
-
-Standard template for python packages.
+[![PyPI](https://img.shields.io/pypi/v/corejam.svg)](https://pypi.python.org/pypi/corejam)
 
 
-## Checklist
-- [ ] Rename all occurences of `TEMPLATE`
-- [ ] Initial release
-- [ ] Zenodo DOI

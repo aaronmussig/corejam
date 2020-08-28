@@ -1,7 +1,5 @@
-
-
 class JAMException(Exception):
-    """ Base exception for all JAM exceptions thrown in this project. """
+    """Base exception for all JAM exceptions thrown in this project. """
 
     def __init__(self, message=''):
         Exception.__init__(self, message)

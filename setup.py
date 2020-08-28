@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 
 def read_meta():
-    path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'TEMPLATE/__init__.py')
+    path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'corejam/__init__.py')
     with open(path) as fh:
         hits = re.findall(r'__(\w+)__ ?= ?["\'](.+)["\']\n', fh.read())
     return {k: v for k, v in hits}
@@ -27,9 +27,9 @@ setup(name=meta['title'],
       url=meta['url'],
       license=meta['license'],
       project_urls={
-          "Bug Tracker": "https://github.com/aaronmussig/TEMPLATE/issues",
-          "Documentation": "https://github.com/aaronmussig/TEMPLATE",
-          "Source Code": "https://github.com/aaronmussig/TEMPLATE",
+          'Bug Tracker': meta['bug_url'],
+          'Documentation': meta['doc_url'],
+          'Source Code': meta['src_url'],
       },
       classifiers=[
           'Development Status :: 4 - Beta',
@@ -47,7 +47,7 @@ setup(name=meta['title'],
       include_package_data=True,
       entry_points={
           'console_scripts': [
-              'TEMPLATE = TEMPLATE.__main__:main'
+              'corejam = corejam.__main__:main'
           ]
       },
       install_requires=[],

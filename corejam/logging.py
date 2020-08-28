@@ -21,12 +21,21 @@ import os
 import re
 import sys
 
-from TEMPLATE.common import make_sure_path_exists
+from corejam.io import assert_path_exists
 
 
 def supports_colour():
-    """Returns True if the running system's terminal supports colour.
-    https://github.com/django/django/blob/master/django/core/management/color.py
+    """Check that the current terminal supports colour.
+
+    Returns
+    -------
+    bool
+        True if the terminal supports colour, False otherwise.
+
+    References
+    ----------
+        https://github.com/django/django/blob/master/django/core/management/color.py
+
     """
     supported_platform = sys.platform != 'win32' or 'ANSICON' in os.environ
     is_a_tty = hasattr(sys.stdout, 'isatty') and sys.stdout.isatty()
@@ -34,8 +43,7 @@ def supports_colour():
 
 
 def colour(to_fmt, attr=None, fg=None, bg=None):
-    """Format a string according to the following rules.
-    http://www.termsys.demon.co.uk/vtansi.htm
+    """Format a string using ANSI colour encoding, if the terminal supports it.
 
     Parameters
     ----------
@@ -88,8 +96,10 @@ def logger_setup(log_dir, log_file, program_name, version, silent, debug=False):
         Name of program.
     version : str
         Program version number.
-    silent : boolean
+    silent : bool
         Flag indicating if output to stdout should be suppressed.
+    debug : bool
+        True if debug messages should be displayed, False otherwise.
     """
 
     class SpecialFormatter(logging.Formatter):
@@ -168,7 +178,7 @@ def logger_setup(log_dir, log_file, program_name, version, silent, debug=False):
         no_timestamp_stream_logger.is_silent = True
 
     if log_dir:
-        make_sure_path_exists(log_dir)
+        assert_path_exists(log_dir)
         timestamp_file_logger = logging.FileHandler(os.path.join(log_dir,
                                                                  log_file), 'a')
         timestamp_file_logger.setFormatter(ColourlessFormatter())

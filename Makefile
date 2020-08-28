@@ -5,8 +5,8 @@
 # from the environment for the first two.
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
-SOURCEDIR     = docsrc
-BUILDDIR      = docbuild
+SOURCEDIR     = docs
+BUILDDIR      = docs_build
 
 
 # Put it first so that "make" without argument is like "make help".
@@ -17,11 +17,7 @@ help:
 
 doc:
 	@make html
-	@rm -rf ./docs/*
-	@touch ./docs/.nojekyll
-	@cp -a docbuild/html/. ./docs
-	@git add docs/
-	@rm -rf docbuild
+	@rm -rf docs_build
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
@@ -34,6 +30,7 @@ clean:
 	@rm -rf *.egg-info/
 	@rm -rf dist/
 	@rm -rf build/
+	@rm -rf docs_build/
 
 tests:
 	@python3 -m unittest discover tests/
@@ -42,7 +39,7 @@ upload:
 	@python3 -m twine upload dist/* --verbose
 
 upload-dev:
-	@python3 -m twine upload --repository --verbose testpypi dist/*
+	@python3 -m twine upload --repository testpypi --verbose dist/*
 
 build:
 	@git branch --color=never | grep "* master" > /dev/null

@@ -15,21 +15,28 @@
 #                                                                             #
 ###############################################################################
 
+import os
 import shutil
 import tempfile
 import unittest
 
+from corejam.io import assert_path_exists
 
-class TestFoo(unittest.TestCase):
+
+class TestIO(unittest.TestCase):
 
     def setUp(self):
-        self.tmp_dir = tempfile.mkdtemp(prefix='TEMPLATE_test_')
+        self.tmp_dir = tempfile.mkdtemp(prefix='corejam_test_')
 
     def tearDown(self):
         shutil.rmtree(self.tmp_dir)
 
-    def test_foo(self):
-        self.assertTrue(True)
+    def test_assert_path_exists(self):
+        self.assertRaises(OSError, assert_path_exists, '/dev/null')
+        dir_todo = os.path.join(self.tmp_dir, 'foo')
+        self.assertFalse(os.path.isdir(dir_todo))
+        assert_path_exists(dir_todo)
+        self.assertTrue(os.path.isdir(dir_todo))
 
 
 if __name__ == '__main__':

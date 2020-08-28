@@ -15,11 +15,19 @@
 #                                                                             #
 ###############################################################################
 
-__title__ = 'TEMPLATE'
-__description__ = 'TEMPLATE'
-__url__ = 'https://github.com/aaronmussig/TEMPLATE'
-__version__ = '0.0.1'
-__author__ = 'Aaron Mussig'
-__author_email__ = 'aaronmussig@gmail.com'
-__license__ = 'GPL3'
-__keywords__ = 'TEMPLATE'
+from corejam import __title__
+from corejam.argparse import CustomArgParser, jam_parser
+
+
+def main_parser():
+    parser = CustomArgParser(prog=__title__)
+    return parser
+
+
+def main():
+    with jam_parser(main_parser()) as _:
+        pass
+
+
+if __name__ == "__main__":
+    main()
