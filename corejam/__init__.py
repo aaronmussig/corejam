@@ -18,7 +18,7 @@
 __title__ = 'corejam'
 __description__ = 'corejam'
 __url__ = 'https://github.com/aaronmussig/corejam'
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 __author__ = 'Aaron Mussig'
 __author_email__ = 'aaronmussig@gmail.com'
 __license__ = 'GPL3'
